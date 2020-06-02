@@ -285,7 +285,7 @@ Take note of the following features of the plan:
 bolt plan show
 ```
 
-The output should look like:
+The output should look like this:
 
 ```
 aggregate::count
@@ -307,7 +307,7 @@ reboot
 bolt plan run puppet_choco_tap::installer package=frogsay --targets=windows
 ```
 
-The output looks like this:
+The output should look like this:
 
 ```
 Starting: plan puppet_choco_tap::installer
