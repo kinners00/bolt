@@ -62,7 +62,7 @@ To run Bolt commands against multiple targets at once, you need to provide infor
             password: s3cr3t
     ```
 
-    **Note:** To have Bolt securely prompt for a password, use the `--password-prompt` flag without supplying any value. This prevents the password from appearing in a process listing or on the console. Alternatively you can use the [`prompt plugin`](using_plugins.md) to set configuration values via a prompt.
+    **Note:** To have Bolt securely prompt for a password, use the `--password-prompt` flag without supplying any value. This prevents the password from appearing in a process listing or on the console. Alternatively you can use the [`prompt` plugin](using_plugins.md) to set configuration values via a prompt.
 
     You now have an inventory file where you can store information about your targets.
 
@@ -135,12 +135,13 @@ You can use Bolt with Chocolatey to deploy a package on a Windows node by writin
 >- Install [Bolt](https://puppet.com/docs/bolt/latest/bolt_installing.html)
 >- Ensure you have Powershell installed and Windows Remote Management (WinRM) access.
 >- powershell.exe and pwsh.exe must be available in the system PATH
+>- GUI or command line text editor such as [VSCode](https://code.visualstudio.com/download) [Notepad++](https://notepad-plus-plus.org/downloads)
+**Note:** VSCode has extensions for [Puppet](https://marketplace.visualstudio.com/items?itemName=puppet.puppet-vscode) and [YAML](https://marketplace.visualstudio.com/items?itemName=docsmsft.docs-yaml) which can be a useful companions when editing YAML and Puppet code.
 
-> 
 
 In this example, you:
 
-- Build a project-specific configuration using a Bolt project directory and PDK.
+- Build a project-specific configuration using a Bolt project directory.
 - Download module content from the Puppet Forge.
 - Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
 
@@ -158,9 +159,9 @@ bolt project init ./bolt_choco_example
    
 You can use an inventory file to store information about your targets and arrange them into groups. Grouping your targets lets you aim your Bolt commands at the group instead of having to reference each target individually with it's relevant connection parameters. 
 
-It's typically stored as `inventory.yaml` in the project directory. 
+Bolt inventory is typically stored in a `inventory.yaml` file in the root of the project directory. 
 
-1. Create `inventory.yaml` file in the `bolt_choco_example` project directory with the following code, replacing the target and credential information to those appropriate for your target: 
+1. In the `bolt_choco_example` project directory, create `inventory.yaml` file with the following code, replacing the target and credential information to those appropriate for your target: 
 
 ```yaml
 groups:
@@ -202,7 +203,7 @@ Ran on 2 targets in 1.11 seconds
 
 Bolt uses a [Puppetfile](https://puppet.com/docs/pe/latest/puppetfile.html) to install module content from the Forge. A `Puppetfile` is a formatted text file that specifies the modules and data you want in each environment.
 
-1. Create a file named `Puppetfile` in the project directory, with the modules needed for this example:
+1. In the project directory, create a file named `Puppetfile` with the modules needed for this example:
 
 ```     
 mod 'puppetlabs-chocolatey', '5.0.2'
@@ -214,7 +215,7 @@ mod 'puppetlabs-pwshlib', '0.4.1'
 
 Note that you can install modules from a number of different sources. For more information, see the [Puppetfile README](https://github.com/puppetlabs/r10k/blob/master/doc/puppetfile.mkd#examples).
 
-2. Run this command from inside the project directory to install the required modules:
+1. In the project directory, run this command to install the required modules:
 
 ```
 bolt puppetfile install
@@ -226,9 +227,9 @@ After it runs, you can see a `modules` directory inside the project directory, c
 
 Write a Bolt plan to orchestrate the deployment of a package resource using the Chocolatey provider. Plans allow you to run more than one task with a single command, compute values for the input to a task, process the results of tasks, or make decisions based on the result of running a task.
 
-Before you create your bolt plan, you'll need to create the correct folder structure to store it. The `site-modules` directory is where you will add local code and modules. Inside the `site-modules` directory, you'll need to create a local module directory named `puppet_choco_tap` and add a `plans` subdirectory.
+Before you create your bolt plan, you'll need to create the correct folder structure in order to store it. The `site-modules` directory is where you will add all local code and modules. Inside the `site-modules` directory, you'll need to create a local module directory named `puppet_choco_tap` and add a `plans` subdirectory. 
 
-After the next few labs, your folder tree should look like this:
+After the next few labs, your site-module folder tree should look like this:
 
 ```
 bolt_choco_example
@@ -238,12 +239,11 @@ bolt_choco_example
             └── installer.pp 
 ```
 
-1. From the project directory, create the folder tree shown above:
+1. From the `bolt_choco_example` project directory, create the folder tree shown above:
 
    ```
    mkdir -p site-modules/puppet_choco_tap/plans
    ```
-
 
 
 2. Inside the `plans` directory, create a plan called `installer.pp` and add the following code:
@@ -268,12 +268,17 @@ plan puppet_choco_tap::installer(
 ```
 Take note of the following features of the plan:
 
-- It has three parameters: the list of targets to install the package on, a `package` string for the package name, and the `ensure` state of the package which allows for version, absent or present.
+- It has three parameters:
+    -  The list of targets to install the package on 
+    -  A `package` string for the package name
+    -  The `ensure` state of the package which allows for version, absent or present.
+
+
 - It has the `apply_prep` function call, which is used to install modules needed by `apply` on targets as well as to gather facts about the targets.
 - `include chocolatey` installs the Chocolatey package manager. The Chocolatey provider is also deployed as a library with the Puppet agent in `apply_prep`.
 - The [package resource](https://puppet.com/docs/puppet/latest/types/package.html) ensures a package's state using the Chocolatey provider.
 
-3. To verify that the `puppet_choco_tap::installer` plan is available, run the following command
+1. To verify that the `puppet_choco_tap::installer` plan is available, run the following command
    inside the `bolt_choco_example` directory:
 
 ```
@@ -294,7 +299,7 @@ puppetdb_fact
 reboot
 ```
 
-### 4. Run bolt plan to install package
+### 5. Run bolt plan to install package
 
 1. Run the plan with the `bolt plan run` command: 
 
