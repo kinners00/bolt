@@ -307,7 +307,7 @@ reboot
 bolt plan run puppet_choco_tap::installer package=frogsay --targets=windows
 ```
 
-The output should look like this:
+You should get the following output:
 
 ```
 Starting: plan puppet_choco_tap::installer
