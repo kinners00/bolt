@@ -140,7 +140,7 @@ You can use Bolt with Chocolatey to deploy a package on a Windows node by writin
 **Note:** VSCode also has extensions for [Puppet](https://marketplace.visualstudio.com/items?itemName=puppet.puppet-vscode) and [YAML](https://marketplace.visualstudio.com/items?itemName=docsmsft.docs-yaml) which can be a useful companions when editing YAML and Puppet code.
 
 
-In this example, you:
+In this example, you will:
 
 - Build a project-specific configuration using a Bolt project directory.
 - Download module content from the Puppet Forge.
