@@ -135,7 +135,8 @@ You can use Bolt with Chocolatey to deploy a package on a Windows node by writin
 >- Install [Bolt](https://puppet.com/docs/bolt/latest/bolt_installing.html)
 >- Ensure you have Powershell installed and Windows Remote Management (WinRM) access.
 >- powershell.exe and pwsh.exe must be available in the system PATH
->- GUI or command line text editor such as [VSCode](https://code.visualstudio.com/download) [Notepad++](https://notepad-plus-plus.org/downloads)
+>- GUI or command line text editor such as [VSCode](https://code.visualstudio.com/download) [Notepad++](https://notepad-plus-plus.org/downloads).
+
 **Note:** VSCode has extensions for [Puppet](https://marketplace.visualstudio.com/items?itemName=puppet.puppet-vscode) and [YAML](https://marketplace.visualstudio.com/items?itemName=docsmsft.docs-yaml) which can be a useful companions when editing YAML and Puppet code.
 
 
