@@ -243,9 +243,8 @@ bolt_choco_example
 1. From the `bolt_choco_example` project directory, create the folder tree shown above:
 
    ```
-   mkdir -p site-modules/puppet_choco_tap/plans
+   New-Item -Type Directory .\site-modules\puppet_choco_tap\plans\
    ```
-
 
 2. Inside the `plans` directory, create a plan called `installer.pp` and add the following code:
 
