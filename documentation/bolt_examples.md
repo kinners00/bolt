@@ -216,7 +216,7 @@ mod 'puppetlabs-pwshlib', '0.4.1'
 
 Note that you can install modules from a number of different sources. For more information, see the [Puppetfile README](https://github.com/puppetlabs/r10k/blob/master/doc/puppetfile.mkd#examples).
 
-1. In the project directory, run this command to install the required modules:
+2. In the project directory, run this command to install the required modules:
 
 ```
 bolt puppetfile install
@@ -279,7 +279,7 @@ Take note of the following features of the plan:
 - `include chocolatey` installs the Chocolatey package manager. The Chocolatey provider is also deployed as a library with the Puppet agent in `apply_prep`.
 - The [package resource](https://puppet.com/docs/puppet/latest/types/package.html) ensures a package's state using the Chocolatey provider.
 
-1. To verify that the `puppet_choco_tap::installer` plan is available, run the following command
+3. To verify that the `puppet_choco_tap::installer` plan is available, run the following command
    inside the `bolt_choco_example` directory:
 
 ```
