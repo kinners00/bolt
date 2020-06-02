@@ -270,9 +270,9 @@ plan puppet_choco_tap::installer(
 Take note of the following features of the plan:
 
 - It has three parameters:
-    -  The list of targets to install the package on 
-    -  A `package` string for the package name
-    -  The `ensure` state of the package which allows for version, absent or present.
+    -  `$targets` A list of targets to install the package on 
+    -  `$package` String for the package name
+    -  `$ensure`  Manage state of the package - allows for version, absent or present.
 
 
 - It has the `apply_prep` function call, which is used to install modules needed by `apply` on targets as well as to gather facts about the targets.
