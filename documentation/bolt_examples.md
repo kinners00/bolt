@@ -252,7 +252,7 @@ bolt_choco_example
 plan puppet_choco_tap::installer(
   TargetSpec $targets,
   String $package,
-  Variant[Enum['absent', 'present'], String ] $ensure = 'present',
+  Enum['absent', 'present'] $ensure = 'present',
 ){
   apply_prep($targets)
 
@@ -285,7 +285,7 @@ Take note of the following features of the plan:
 bolt plan show
 ```
 
-The output should look like this:
+Output:
 
 ```
 aggregate::count
@@ -298,6 +298,28 @@ puppet_choco_tap::installer
 puppetdb_fact
 reboot
 ```
+
+4. You can also find out more information about a plan for example it's parameters and how to structure a bolt command using the parameters available to the plan.
+
+```
+bolt plan show puppet_choco_tap::installer
+```
+
+Output:
+
+```
+puppet_choco_tap::installer
+
+USAGE:
+bolt plan run puppet_choco_tap::installer targets=<value> package=<value> [ensure=<value>]
+
+PARAMETERS:
+- targets: TargetSpec
+- package: String
+- ensure: Enum['absent', 'present']
+    Default: 'present'
+```
+
 
 ### 5. Run bolt plan to install package
 
