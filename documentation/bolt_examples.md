@@ -20,9 +20,9 @@ To show you how you can use Bolt to reuse your existing PowerShell scripts, this
 The example script, called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1), performs common task of restarting a service on demand. The process involves these steps:
 
 1.  Run your PowerShell script on a Windows target.
-1.  Create an inventory file to store information about the target.
-1.  Convert your script to a task.
-1.  Execute your new task.
+2.  Create an inventory file to store information about the target.
+3.  Convert your script to a task.
+4.  Execute your new task.
 
 
 ### 1. Run your PowerShell script on a Windows target
@@ -142,27 +142,55 @@ You can use Bolt with Chocolatey to deploy a package on a Windows node by writin
 
 In this example, you will:
 
-- Build a project-specific configuration using a Bolt project directory.
-- Download module content from the Puppet Forge.
-- Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
+1. Build a project-specific configuration using a Bolt project directory.
+2. Download module content from the Puppet Forge.
+3. Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
 
 ### 1. Create a Bolt project
 
 Bolt runs in the context of a [Bolt project directory](bolt_project_directories.md). This directory contains all of the configuration, code, and data loaded by Bolt. Adding a `bolt.yaml` file (even if it's empty) to any directory automatically makes it a Bolt project directory. We could create a directory and `bolt.yaml` file manually but fortunately we can achieve the same result by running one simple command with bolt, as shown below.
 
 
-1. Create a Bolt project called `bolt_choco_example`
+1. Create a Bolt project called `bolt_examples`
 
 ```
-bolt project init ./bolt_choco_example
+bolt project init ./bolt_examples
 ```
+
+You need to create a `site-modules` directory to hold all of your local code and modules. 
+
+2. Create directory called `site-modules`
+
+```
+mkdir .\site-modules\
+```
+
+### 2. Create choco module
+
+Before you create your bolt plan, you'll need to create the correct folder structure in order to store it. Inside the `site-modules` directory, you'll need to create a local module directory named `choco_example` and add a `plans` subdirectory. 
+
+After the next few labs, your site-module folder tree should look like this:
+
+```
+bolt_examples
+└── site-modules
+    └── choco_example
+        └── plans
+            └── installer.pp 
+```
+
+1. From the `bolt_examples` project directory, create the folder tree shown above:
+
+   ```
+   mkdir .\site-modules\choco_example\plans\
+   ```
 ### 2. Create a inventory file
    
 You can use an inventory file to store information about your targets and arrange them into groups. Grouping your targets lets you aim your Bolt commands at the group instead of having to reference each target individually with it's relevant connection parameters. 
 
 Bolt inventory is typically stored in a `inventory.yaml` file in the root of the project directory. 
 
-1. In the `bolt_choco_example` project directory, create `inventory.yaml` file with the following code, replacing the target and credential information to those appropriate for your target: 
+1. In the `bolt_examples` project directory, create `inventory.yaml` file with the following code, replacing the target and credential information to those appropriate for your target: 
 
 ```yaml
 groups:
@@ -200,7 +228,7 @@ Successful on 2 targets: win1.classroom.puppet.com,win2.classroom.puppet.com
 Ran on 2 targets in 1.11 seconds
 ```
 
-### 3. Download and install the Chocolatey module
+### 4. Download and install the Chocolatey module
 
 Bolt uses a [Puppetfile](https://puppet.com/docs/pe/latest/puppetfile.html) to install module content from the Forge. A `Puppetfile` is a formatted text file that specifies the modules and data you want in each environment.
 
@@ -224,32 +252,15 @@ bolt puppetfile install
 
 After it runs, you can see a `modules` directory inside the project directory, containing the modules you specified in the `Puppetfile`.
 
-### 4. Write a Bolt plan to apply Puppet code
+### 5. Write a Bolt plan to apply Puppet code
 
 Write a Bolt plan to orchestrate the deployment of a package resource using the Chocolatey provider. Plans allow you to run more than one task with a single command, compute values for the input to a task, process the results of tasks, or make decisions based on the result of running a task.
 
-Before you create your bolt plan, you'll need to create the correct folder structure in order to store it. The `site-modules` directory is where you will add all local code and modules. Inside the `site-modules` directory, you'll need to create a local module directory named `puppet_choco_tap` and add a `plans` subdirectory. 
 
-After the next few labs, your site-module folder tree should look like this:
-
-```
-bolt_choco_example
-└── site-modules
-    └── puppet_choco_tap
-        └── plans
-            └── installer.pp 
-```
-
-1. From the `bolt_choco_example` project directory, create the folder tree shown above:
-
-   ```
-   mkdir -p .\site-modules\puppet_choco_tap\plans\
-   ```
-
-2. Inside the `plans` directory, create a plan called `installer.pp` and add the following code:
+1. Inside the `plans` directory, create a plan called `installer.pp` and add the following code:
 
 ```
-plan puppet_choco_tap::installer(
+plan choco_example::installer(
   TargetSpec $targets,
   String $package,
   Enum['absent', 'present'] $ensure = 'present',
@@ -278,8 +289,8 @@ Take note of the following features of the plan:
 - `include chocolatey` installs the Chocolatey package manager. The Chocolatey provider is also deployed as a library with the Puppet agent in `apply_prep`.
 - The [package resource](https://puppet.com/docs/puppet/latest/types/package.html) ensures a package's state using the Chocolatey provider.
 
-3. To verify that the `puppet_choco_tap::installer` plan is available, run the following command
-   inside the `bolt_choco_example` directory:
+3. To verify that the `choco_example::installer` plan is available, run the following command
+   inside the `bolt_examples` directory:
 
 ```
 bolt plan show
@@ -294,24 +305,24 @@ aggregate::targets
 canary
 facts
 facts::info
-puppet_choco_tap::installer
+choco_example::installer
 puppetdb_fact
 reboot
 ```
 
-4. You can also find out more information about a plan for example it's parameters and how to structure a bolt command using the parameters available to the plan.
+1. Adding the name of a plan to the end of the previous command will show more details about a given plan. This includes available parameters and usage information:
 
 ```
-bolt plan show puppet_choco_tap::installer
+bolt plan show choco_example::installer
 ```
 
 Output:
 
 ```
-puppet_choco_tap::installer
+choco_example::installer
 
 USAGE:
-bolt plan run puppet_choco_tap::installer targets=<value> package=<value> [ensure=<value>]
+bolt plan run choco_example::installer targets=<value> package=<value> [ensure=<value>]
 
 PARAMETERS:
 - targets: TargetSpec
@@ -321,25 +332,25 @@ PARAMETERS:
 ```
 
 
-### 5. Run bolt plan to install package
+### 6. Run bolt plan to install package
 
 1. Run the plan with the `bolt plan run` command: 
 
 ```
-bolt plan run puppet_choco_tap::installer package=frogsay --targets=windows
+bolt plan run choco_example::installer package=frogsay targets=windows
 ```
 
 You should get the following output:
 
 ```
-Starting: plan puppet_choco_tap::installer
+Starting: plan choco_example::installer
 Starting: install puppet and gather facts on win1.classroom.puppet.com, win2.classroom.puppet.com
 Finished: install puppet and gather facts with 0 failures in 22.11 sec
 Starting: apply catalog on win1.classroom.puppet.com, win2.classroom.puppet.com
 Finished: apply catalog with 0 failures in 18.77 sec
 Starting: apply catalog on win1.classroom.puppet.com, win2.classroom.puppet.com
 Finished: apply catalog with 0 failures in 33.74 sec
-Finished: plan puppet_choco_tap::installer in 74.63 sec
+Finished: plan choco_example::installer in 74.63 sec
 ```
 
 2. To check that the installation worked, run the following `frogsay` command: 
