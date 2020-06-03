@@ -179,11 +179,12 @@ bolt_examples
             └── installer.pp 
 ```
 
-1. From the `bolt_examples` project directory, create the folder tree shown above:
+1. From the `site_modules` directory, create a choco module directory and plans subdirectory:
 
    ```
-   mkdir .\site-modules\choco_example\plans\
+   mkdir .\choco_example\plans\
    ```
+
 ### 2. Create a inventory file
    
 You can use an inventory file to store information about your targets and arrange them into groups. Grouping your targets lets you aim your Bolt commands at the group instead of having to reference each target individually with it's relevant connection parameters. 
