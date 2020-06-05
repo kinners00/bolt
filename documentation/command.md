@@ -7,8 +7,7 @@ If you're not using an inventory file to store your target connection details, y
 
 -   **Linux**
     ```shell script
-    bolt command run 'hostname' --targets lin.puppet.com
-	--user test --private-key ~/.ssh/test.pem --no-host-key-check
+    bolt command run 'hostname' --targets lin.puppet.com --user test --private-key ~/.ssh/test.pem --no-host-key-check
     ```
 
     **Windows**
