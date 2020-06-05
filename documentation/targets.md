@@ -15,13 +15,39 @@ bolt command run 'hostname' --targets linux
 bolt command run 'hostname' --targets windows
 ```
 
-You can also run a command against multiple groups in your inventory:
+If the same works on nodes assigned to groups in your inventory file, you can run the command on multiple groups at the same time:
 
 ```shell script
 bolt command run 'hostname' --targets linux,windows
 ```
 
-If you're **not** using an inventory file to store your target connection details, you need to pass those details on your bolt command. Below you can see the `hostname` command running on both linux and windows targets.
+In this example, our inventory file looks like this:
+
+```yaml
+---
+groups:
+- name: linux
+  targets:
+  - lin.puppet.com 
+  config:
+    transport: ssh
+    ssh:
+      host-key-check: false
+      user: test
+      run-as: root
+      private-key: ~/.ssh/test.pem
+- name: windows
+  targets:
+  - win.puppet.com
+  config:
+    transport: winrm
+    winrm:
+      ssl: false
+      user: test
+      password: 'Puppetlabs!'
+```
+
+If you're not using an inventory file to store your target connection details, you need to pass those details on your bolt command. Below you can see the `hostname` command running on both linux and windows targets.
 
 **Linux**
 ```shell script
