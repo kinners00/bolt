@@ -5,7 +5,7 @@ Use Bolt commands to connect directly to the systems where you want to execute c
 
 When using an inventory file to store connection and target information, we can run a short bolt command:
 
-- **Linux**
+**Linux**
 ```shell script
 bolt command run 'hostname' --targets linux
 ```
@@ -43,15 +43,15 @@ groups:
 
 If you're not using an inventory file to store your target connection details, you need to pass those details on your bolt command. Below you can see the `hostname` command running on both linux and windows targets.
 
--   **Linux**
-    ```shell script
-    bolt command run 'hostname' --targets lin.puppet.com --user test --private-key ~/.ssh/test.pem --no-host-key-check
-    ```
+**Linux**
+```shell script
+bolt command run 'hostname' --targets lin.puppet.com --user test --private-key ~/.ssh/test.pem --no-host-key-check
+```
 
-    **Windows**
-    ```shell script
-    bolt command run 'hostname' --targets win.puppet.com --user test --password Puppetlabs! --transport winrm --no-ssl
-    ```
+**Windows**
+```shell script
+bolt command run 'hostname' --targets win.puppet.com --user test --password Puppetlabs! --transport winrm --no-ssl
+```
 
    
 
