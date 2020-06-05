@@ -50,7 +50,7 @@ USAGE
     ```
    
     ```shell script
-    bolt command run 'hostname' --targets winrm://mywindowstarget.mydomain --user puppet--password puppetlabs
+    bolt command run 'hostname' --targets winrm://test.classroom.puppet.com --user puppet--password puppetlabs
     ```
 
 NAME
