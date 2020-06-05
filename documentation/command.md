@@ -15,6 +15,12 @@ bolt command run 'hostname' --targets linux
 bolt command run 'hostname' --targets windows
 ```
 
+If the same works on nodes assigned to groups in your inventory file, you can run the command on multiple groups at the same time:
+
+```shell script
+bolt command run 'hostname' --targets linux,windows
+```
+
 In this example, our inventory file looks like this:
 
 ```yaml
