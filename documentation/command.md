@@ -39,7 +39,7 @@ USAGE
     bolt command run <COMMAND> --targets <TARGET NAME>,<TARGET NAME>,<TARGET NAME>
     ```
 
--   
+   
     ```shell script
     bolt command run 'hostname' --targets windows,linux
     ```
@@ -48,7 +48,7 @@ USAGE
     ```shell script
     bolt command run <COMMAND> --targets winrm://<WINDOWS.TARGET> --user <USERNAME> --password <PASSWORD>
     ```
--   
+   
     ```shell script
     bolt command run 'hostname' --targets winrm://mywindowstarget.mydomain --user puppet--password puppetlabs
     ```
