@@ -21,11 +21,11 @@ You can also run a command against multiple groups in your inventory:
 bolt command run 'hostname' --targets linux,windows
 ```
 
-If you're **not** using an inventory file to store your target connection details, you need to pass those details on your bolt command. Below you can see the `hostname` command running on both linux and windows targets.
+If you're **not** using an inventory file to store your target connection details, you need to pass those details on your bolt command. Below you can see the `hostname` command running on both linux and windows targets. 
 
 **Linux**
 ```shell script
-bolt command run 'hostname' --targets lin.puppet.com --user test --private-key ~/.ssh/test.pem --no-host-key-check
+bolt command run 'hostname' --targets 52.56.151.48 --user test --private-key ~/.ssh/test.pem --no-host-key-check
 ```
 
 **Windows**
