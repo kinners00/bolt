@@ -44,7 +44,7 @@ USAGE
 
 -   To run a command on WinRM targets, indicate the WinRM protocol in the targets string:
     ```shell script
-    bolt command run 'hostname' --targets winrm://test.classroom.puppet.com --user puppet--password puppetlabs
+    bolt command run 'hostname' --targets winrm://test.puppet.com --user puppet--password puppetlabs
     ```
    
 
