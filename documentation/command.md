@@ -42,14 +42,14 @@ Using a shell ensures that the one-liner is run as a single command and that it 
 
 -   To run a command on WinRM targets, indicate the WinRM protocol in the targets string:
     ```shell script
-    bolt command run 'hostname' --targets winrm://win.test.com --user puppet--password puppetlabs
+    bolt command run 'hostname' --targets winrm://win.test.com --user puppet --password puppetlabs
     ```
    
 **Linux**
 
 -   To run a command on SSH targets, indicate the SSH protocol in the targets string:
     ```shell script
-    bolt command run 'hostname' --targets ssh://lin.test.com --user puppet--password puppetlabs
+    bolt command run 'hostname' --targets ssh://lin.test.com --user puppet --password puppetlabs
     ```
 
 NAME
