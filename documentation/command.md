@@ -36,22 +36,18 @@ USAGE
 
 -   To run a command on a list of targets:
     ```shell script
-    bolt command run <COMMAND> --targets <TARGET NAME>,<TARGET NAME>,<TARGET NAME>
-    ```
-
-   
-    ```shell script
     bolt command run 'hostname' --targets windows,linux
     ```
 
--   To run a command on WinRM targets, indicate the WinRM protocol in the targets string:
-    ```shell script
-    bolt command run <COMMAND> --targets winrm://<WINDOWS.TARGET> --user <USERNAME> --password <PASSWORD>
-    ```
    
+
+
+-   To run a command on WinRM targets, indicate the WinRM protocol in the targets string:
     ```shell script
     bolt command run 'hostname' --targets winrm://test.classroom.puppet.com --user puppet--password puppetlabs
     ```
+   
+
 
 NAME
     run
