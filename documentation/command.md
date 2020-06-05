@@ -1,43 +1,69 @@
-# Running basic Bolt commands
-
 Use Bolt commands to connect directly to the systems where you want to execute commands, run scripts, and upload files.
-
-## Run a command on remote targets
-
-Specify the command you want to run and which targets to run it on.
-
-When you have credentials on remote systems, you can use Bolt to run commands across those systems.
-
-
--   To run a command that contains spaces or shell special characters, wrap the command in single quotation marks:
-    ```shell script
-    bolt command run 'echo $HOME' --targets web5.mydomain.edu,web6.mydomain.edu
-    ```
-    ```shell script
-    bolt command run "netstat -an | grep 'tcp.*LISTEN'" --targets web5.mydomain.edu,web6.mydomain.edu
-    ```
--   To run a cross-platform command:
-    ```shell script
-    bolt command run "echo 'hello world'"
-    ```
-
-    **Note:** When connecting to Bolt hosts over WinRM that have not configured SSL for port 5986, passing the `--no-ssl` switch is required to connect to the default WinRM port 5985.
-bolt command run 
-
-When you run one-line commands that include redirection or pipes, pass `bash` or another shell as the command.
-
-Using a shell ensures that the one-liner is run as a single command and that it works correctly with `run-as`. For example, instead of `bolt command run "echo foo > /root/foo" --run-as root`, use `bolt command run "bash -c 'echo foo > /root/foo'" --run-as root`.
 
 
 ## Running commands on remote targets
 
+If you're not using an inventory file to store your target connection details, you need to pass those details on your bolt command. Below you can see the `hostname` command running on both linux and windows targets.
 
--   To run a command on a list of targets:
+-   **Linux**
     ```shell script
-    bolt command run 'hostname' --targets windows,linux
+    bolt command run 'hostname' --targets lin.puppet.com
+	--user test --private-key ~/.ssh/test.pem --no-host-key-check
+    ```
+
+    **Windows**
+    ```shell script
+    bolt command run 'hostname' --targets win.puppet.com --user test --password Puppetlabs! --transport winrm --no-ssl
     ```
 
    
+When using an inventory file, our bolt command becomes alot cleaner and shorter
+
+In this scenario, our inventory file looks like this:
+
+```yaml
+---
+groups:
+- name: linux
+  targets:
+  - lin.puppet.com 
+  config:
+    transport: ssh
+    ssh:
+      host-key-check: false
+      user: test
+      run-as: root
+      private-key: ~/.ssh/test.pem
+- name: windows
+  targets:
+  - win.puppet.com
+  config:
+    transport: winrm
+    winrm:
+      ssl: false
+      user: test
+      password: 'Puppetlabs!'
+```
+
+Now you can run the same commands but without connection information. Notice we are now calling the group name as shown in the inventory file instead of the hostname.
+
+-   **Linux**
+    ```shell script
+    bolt command run 'hostname' --targets linux
+    ```
+
+    **Windows**
+    ```shell script
+    bolt command run 'hostname' --targets windows
+    ```
+
+
+
+pause
+
+
+
+
 **Windows**
 
 -   To run a command on WinRM targets, indicate the WinRM protocol in the targets string:
