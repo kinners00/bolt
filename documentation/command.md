@@ -29,10 +29,8 @@ When you run one-line commands that include redirection or pipes, pass `bash` or
 Using a shell ensures that the one-liner is run as a single command and that it works correctly with `run-as`. For example, instead of `bolt command run "echo foo > /root/foo" --run-as root`, use `bolt command run "bash -c 'echo foo > /root/foo'" --run-as root`.
 
 
-## Running commands
+## Running commands on remote targets
 
-USAGE
-    bolt command run <command> [options]
 
 -   To run a command on a list of targets:
     ```shell script
@@ -40,14 +38,19 @@ USAGE
     ```
 
    
-
+**Windows**
 
 -   To run a command on WinRM targets, indicate the WinRM protocol in the targets string:
     ```shell script
-    bolt command run 'hostname' --targets winrm://test.puppet.com --user puppet--password puppetlabs
+    bolt command run 'hostname' --targets winrm://win.test.com --user puppet--password puppetlabs
     ```
    
+**Linux**
 
+-   To run a command on SSH targets, indicate the SSH protocol in the targets string:
+    ```shell script
+    bolt command run 'hostname' --targets ssh://lin.test.com --user puppet--password puppetlabs
+    ```
 
 NAME
     run
