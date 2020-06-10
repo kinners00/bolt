@@ -35,7 +35,6 @@ groups:
   config:
     transport: winrm
     winrm:
-      ssl: false
       user: Administrator
       password: 's3cr3t'
 ```
@@ -64,7 +63,6 @@ groups:
   config:
     transport: winrm
     winrm:
-      ssl: false
       user: Administrator
       password: 's3cr3t'
 - name: linux
@@ -86,19 +84,13 @@ groups:
     mkdir tasks plans
     ````
 
+You should now have a bolt project directory structure that looks like this:
 
-If `bolt-project.yaml` exists at the root of a project directory, Bolt loads the
-project as a module. Bolt loads tasks and plans from the `tasks` and `plans`
-directories and namespaces them to the project name.
-
-Here is an example of a project using a simplified directory structure:
 ```console
-.
-├── bolt.yaml
-├── bolt-project.yaml
-├── inventory.yaml
-├── plans
-│   └── myplan.yaml
-└── tasks
-    └── mytask.yaml
+bolt_examples
+└── bolt.yaml
+    bolt-project.yaml
+    inventory.yaml
+    tasks
+    plans
 ```
