@@ -23,7 +23,10 @@ To get started with a Bolt project:
    touch bolt-project.yaml
    ```
 
-3. Create `inventory.yaml` file with the content below replacing target and credential information with your own. If you're only working with one of these groups (linux/windows) you can simply delete the content for that group in your inventory file.
+3. Create `inventory.yaml` file with the content below replacing target and credential information with your own. 
+
+
+> **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for said group in your inventory file.
 
     Both target types:
     ```yaml
