@@ -29,6 +29,7 @@ To get started with a Bolt project:
 > **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for said group in your inventory file.
 
     Both target types:
+
     ```yaml
     groups:
     - name: windows
