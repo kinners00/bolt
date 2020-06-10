@@ -28,7 +28,7 @@ To get started with a Bolt project:
 
 > **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for said group in your inventory file.
 
-    ```yaml
+```yaml
     groups:
     - name: windows
       targets:
@@ -50,7 +50,7 @@ To get started with a Bolt project:
           user: puppet
           run-as: root
           private-key: ~/.ssh/puppet.pem
-    ```
+```
 
 4. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory with your target groups: 
 
