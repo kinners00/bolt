@@ -67,12 +67,12 @@ groups:
 
 You should now have a bolt project directory structure that looks like this:
 
-    ```console
-    bolt_examples
-    └── bolt.yaml
-        bolt-project.yaml
-        inventory.yaml
-        tasks
-        plans
-    ```
+```console
+bolt_examples
+└── bolt.yaml
+    bolt-project.yaml
+    inventory.yaml
+    tasks
+    plans
+```
 
