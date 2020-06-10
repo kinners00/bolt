@@ -23,35 +23,7 @@ To get started with a Bolt project:
    touch bolt-project.yaml
    ```
 
-3. Create `inventory.yaml` file
-
-    Windows:
-    ```yaml
-    groups:
-    - name: windows
-      targets:
-      - win1.classroom.puppet.com
-      - win2.classroom.puppet.com
-      config:
-        transport: winrm
-        winrm:
-          user: Administrator
-          password: 's3cr3t'
-    ```
-    Linux:
-    ```yaml
-    - name: linux
-      targets:
-      - lin1.classroom.puppet.com
-      - lin1.classroom.puppet.com
-      config:
-        transport: ssh
-        ssh:
-          host-key-check: false
-          user: puppet
-          run-as: root
-          private-key: ~/.ssh/puppet.pem
-    ```
+3. Create `inventory.yaml` file with the content below replacing target and credential information with your own. If you're only working with one of these groups (linux/windows) you can simply delete the content for that group in your inventory file.
 
     Both target types:
     ```yaml
