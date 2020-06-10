@@ -4,6 +4,7 @@ Before your begin, make sure you've [updated Bolt to version 2.8.0 or
 higher](./bolt_installing.md).
 
 To get started with a Bolt project:
+
 1. Create Bolt project:
 
    ```
@@ -12,10 +13,20 @@ To get started with a Bolt project:
 
 2. Create a `bolt-project.yaml` file in the root of your Bolt project directory.
 
+   Windows:
+   ```
+   New-Item -ItemType file bolt-project.yaml
+   ```
+
+   Linux:
+   ```
+   touch bolt-project.yaml
+   ```
+
 3. Create `tasks` and `plans` directories in the root of the project
 
     ```
-    bolt project init bolt_examples
+    mkdir tasks plans
     ````
 
 
