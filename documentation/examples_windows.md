@@ -391,3 +391,7 @@ Ran on 2 targets in 3.15 seconds
 That’s it! In this one plan, you have both installed Chocolatey and deployed the package to two targets. You can do the same thing on any number of targets by editing the inventory file. Note that Chocolatey will remain installed on your machine.
 
 After you have installed your package, with the help of Bolt, you can use Chocolatey to automate all of the package management tasks for upgrades or uninstalls. You can use Puppet Enterprise to guarantee state across all of your nodes and handle configuration drift — and make sure no one accidentally uninstalls the package that you just installed.
+
+
+
+> **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for that group in your inventory file.
