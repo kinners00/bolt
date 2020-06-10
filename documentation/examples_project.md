@@ -5,31 +5,24 @@ higher](./bolt_installing.md).
 
 To get started with a Bolt project:
 
-1. Create Bolt project:
+
+1. Create Bolt project called `bolt_examples`:
 
    ```
    bolt project init bolt_examples
    ```
 
-2. Create a `bolt-project.yaml` file in the root of your Bolt project directory.
+You need to create a `site-modules` directory to hold all of your local code and modules. 
 
-   Windows:
-   ```
-   New-Item -ItemType file bolt-project.yaml
-   ```
+Make sure your current working directory is `bolt_examples`
 
-   Linux:
-   ```
-   touch bolt-project.yaml
-   ```
+2. Create directories to hold local tasks and plans in `bolt_examples` project directory
 
-3. Create `tasks` and `plans` directories in the root of the project
+```
+mkdir -p site-modules/tasks site-modules/plans
+```
 
-    ```
-    mkdir tasks plans
-    ````
-
-4. Create `inventory.yaml` file with the content below replacing target and credential information with your own. 
+3. Create `inventory.yaml` file with the content below replacing target and credential information with your own. 
 
 
 > **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for said group in your inventory file.
@@ -58,7 +51,7 @@ groups:
       private-key: ~/.ssh/puppet.pem
 ```
 
-5. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory with your target groups: 
+4. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory with your target groups: 
 
     ```
     bolt command run 'echo hi' --targets windows,linux
@@ -69,10 +62,7 @@ You should now have a bolt project directory structure that looks like this:
 
 ```console
 bolt_examples
-└── bolt.yaml
-    bolt-project.yaml
-    inventory.yaml
-    tasks
-    plans
+└── site-modules
+    └── tasks
+        plans      
 ```
-
