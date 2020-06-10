@@ -12,8 +12,6 @@ To get started with a Bolt project:
    bolt project init bolt_examples
    ```
 
-You need to create a `site-modules` directory to hold all of your local code and modules. 
-
 Make sure your current working directory is `bolt_examples`
 
 2. Create directories to hold local tasks and plans in `bolt_examples` project directory
