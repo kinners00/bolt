@@ -78,7 +78,13 @@ groups:
       private-key: ~/.ssh/puppet.pem
 ```
 
-4. Create `tasks` and `plans` directories in the root of the project
+4. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory with your target groups: 
+
+```
+bolt command run 'echo hi' --targets windows,linux
+```
+
+5. Create `tasks` and `plans` directories in the root of the project
 
     ```
     mkdir tasks plans
@@ -94,3 +100,4 @@ bolt_examples
     tasks
     plans
 ```
+
