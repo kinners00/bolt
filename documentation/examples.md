@@ -17,12 +17,12 @@ To show you how you can use Bolt to reuse your existing PowerShell scripts, this
 > -   Ensure you have Windows credentials for the target.
 > -   Ensure you have [configured Windows Remote Management](https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management) on the target.
 
-The example script, called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1), performs common task of restarting a service on demand. The process involves these steps:
+The example script, called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1), performs common task of restarting a service on demand. The process involves these steps:
 
 1.  Run your PowerShell script on a Windows target.
-1.  Create an inventory file to store information about the target.
-1.  Convert your script to a task.
-1.  Execute your new task.
+2.  Create an inventory file to store information about the target.
+3.  Convert your script to a task.
+4.  Execute your new task.
 
 
 ### 1. Run your PowerShell script on a Windows target
@@ -30,8 +30,8 @@ The example script, called [restart_service.ps1](https://gist.github.com/Random
 First, we’ll use Bolt to run the script as-is on a single target.
 
 1.  Create a Bolt project directory to work in, called `bolt-guide`.
-1.  Copy the [`restart_service.ps1`](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1) script into `bolt-guide`.
-1.  In the `bolt-guide` directory, run the `restart_service.ps1` script:
+2.  Copy the [`restart_service.ps1`](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1) script into `bolt-guide`.
+3.  In the `bolt-guide` directory, run the `restart_service.ps1` script:
     ```
     bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator -p 
     ```
@@ -53,16 +53,16 @@ To run Bolt commands against multiple targets at once, you need to provide infor
     groups:
       - name: windows
         targets:
-          - <ADD WINDOWS SERVERS' FQDN>
-          - <example.mycompany.com>
+          - win1.classroom.puppet.com
+          - win2.classroom.puppet.com       
         config:
           transport: winrm
           winrm:
             user: Administrator
-            password: <ADD PASSWORD>
+            password: s3cr3t
     ```
 
-    **Note:** To have Bolt securely prompt for a password, use the `--password-prompt` flag without supplying any value. This prevents the password from appearing in a process listing or on the console. Alternatively you can use the [``prompt` plugin`](inventory_file_v2.md#) to set configuration values via a prompt.
+    **Note:** To have Bolt securely prompt for a password, use the `--password-prompt` flag without supplying any value. This prevents the password from appearing in a process listing or on the console. Alternatively you can use the [`prompt` plugin](using_plugins.md) to set configuration values via a prompt.
 
     You now have an inventory file where you can store information about your targets.
 
@@ -82,9 +82,9 @@ To convert the `restart_service.ps1` script to a task, giving you the ability to
         └── gsg
             └── tasks
     ```
-1.  Move the `restart_service.ps1` script into the `tasks` directory.
-1.  In the `tasks` directory, use your text editor to create a task metadata file — named after the script, but with a `.json` extension, in this example, `restart_service.json`.
-1.  Add the following content to the new task metadata file:
+2.  Move the `restart_service.ps1` script into the `tasks` directory.
+3.  In the `tasks` directory, use your text editor to create a task metadata file — named after the script, but with a `.json` extension, in this example, `restart_service.json`.
+4.  Add the following content to the new task metadata file:
 
     ```json
     {
@@ -104,10 +104,10 @@ To convert the `restart_service.ps1` script to a task, giving you the ability to
     }
     ```
 
-1.  Save the task metadata file and navigate back to the `bolt-guide` directory.
+5.  Save the task metadata file and navigate back to the `bolt-guide` directory.
 
     You now have two files in the `gsg` module’s `tasks` directory: `restart_service.ps1` and `restart_service.json` -- the script is officially converted to a Bolt task. Now that it’s converted, you no longer need to specify the file extension when you call it from a Bolt command.
-1.  Validate that Bolt recognizes the script as a task:
+6.  Validate that Bolt recognizes the script as a task:
     ```
     bolt task show gsg::restart_service
     ```
@@ -116,7 +116,7 @@ To convert the `restart_service.ps1` script to a task, giving you the ability to
 
     Congratulations! You’ve successfully converted the `restart_service.ps1` script to a Bolt task.
 
-1.  Execute your new task:
+7.  Execute your new task:
     ```
     bolt task run gsg::restart_service service=W32Time --targets windows
     ```
@@ -132,51 +132,81 @@ You can use Bolt with Chocolatey to deploy a package on a Windows node by writin
 
 > **Before you begin**
 >
->- Install [Bolt](https://puppet.com/docs/bolt/latest/bolt_installing.html) and
->  the [Puppet Development Kit
->  (PDK)](https://www.puppet.com/docs/pdk/1.x/pdk_install.html).
-> - Ensure you have Powershell and Windows Remote Management (WinRM) access.
+>- Install [Bolt](https://puppet.com/docs/bolt/latest/bolt_installing.html)
+>- Ensure you have Powershell installed and Windows Remote Management (WinRM) access.
+>- powershell.exe and pwsh.exe must be available in the system PATH
+>- Text editor such as [VSCode](https://code.visualstudio.com/download) or [Notepad++](https://notepad-plus-plus.org/downloads).
 
-In this example, you:
+**Note:** VSCode also has extensions for [Puppet](https://marketplace.visualstudio.com/items?itemName=puppet.puppet-vscode) and [YAML](https://marketplace.visualstudio.com/items?itemName=docsmsft.docs-yaml) which can be a useful companions when editing YAML and Puppet code.
 
-- Build a project-specific configuration using a Bolt project directory and PDK.
-- Download module content from the Puppet Forge.
-- Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
 
-### 1. Build a project-specific configuration
+In this example, you will:
 
-Bolt runs in the context of a [Bolt project directory](bolt_project_directories.md). This directory contains all of the configuration, code, and data loaded by Bolt.
+1. Build a project-specific configuration using a Bolt project directory.
+2. Download module content from the Puppet Forge.
+3. Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
 
-1. Create a module called `bolt_choco_example`
+### 1. Create a Bolt project
 
-```
-mkdir bolt_choco_example
-```
+Bolt runs in the context of a [Bolt project directory](bolt_project_directories.md). This directory contains all of the configuration, code, and data loaded by Bolt. Adding a `bolt.yaml` file (even if it's empty) to any directory automatically makes it a Bolt project directory. We could create a directory and `bolt.yaml` file manually but fortunately we can achieve the same result by running one simple command with bolt, as shown below.
 
-1. Add a `bolt.yaml` file to the `puppet_choco_tap` directory:
+
+1. Create a Bolt project called `bolt_examples`
 
 ```
-New-Item -Type File -Path .\puppet_choco_tap\bolt.yaml
+bolt project init ./bolt_examples
 ```
 
-Adding a `bolt.yaml` file (even if it's empty),  makes the containing directory a Bolt project directory when you run Bolt from it. This is where Bolt loads code and configuration from.
+You need to create a `site-modules` directory to hold all of your local code and modules. 
 
-1. Create an inventory file to store information about your targets. This is stored as `inventory.yaml` by default in the project directory. Add the following code: 
+2. Create directory called `site-modules`
 
 ```
+mkdir .\site-modules\
+```
+
+### 2. Create choco module
+
+Before you create your bolt plan, you'll need to create the correct folder structure in order to store it. Inside the `site-modules` directory, you'll need to create a local module directory named `choco_example` and add a `plans` subdirectory. 
+
+After the next few labs, your site-module folder tree should look like this:
+
+```
+bolt_examples
+└── site-modules
+    └── choco_example
+        └── plans
+            └── installer.pp 
+```
+
+1. From the `site_modules` directory, create a choco module directory and plans subdirectory:
+
+   ```
+   mkdir .\choco_example\plans\
+   ```
+
+### 2. Create a inventory file
+   
+You can use an inventory file to store information about your targets and arrange them into groups. Grouping your targets lets you aim your Bolt commands at the group instead of having to reference each target individually with it's relevant connection parameters. 
+
+Bolt inventory is typically stored in a `inventory.yaml` file in the root of the project directory. 
+
+1. In the `bolt_examples` project directory, create `inventory.yaml` file with the following code, replacing the target and credential information to those appropriate for your target: 
+
+```yaml
 groups:
   - name: windows
     targets:
-      - chocowin0.classroom.puppet.com
-      - chocowin1.classroom.puppet.com
+      - win1.classroom.puppet.com
+      - win2.classroom.puppet.com
     config:
       transport: winrm
       winrm:
         user: Administrator
-        password: <ADD PASSWORD>
+        password: s3cr3t
 ```
 
-1. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory: 
+2. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory: 
 
 ```
 bolt command run 'echo hi' --targets windows
@@ -187,37 +217,35 @@ bolt command run 'echo hi' --targets windows
 You should get the following output:
 
 ```
-Started on x.x.x.x...
-Started on localhost...
-Finished on localhost:
+Started on win1.classroom.puppet.com...
+Started on win2.classroom.puppet.com...
+Finished on win1.classroom.puppet.com:
   STDOUT:
     hi
-Finished on 0.0.0.0:
+Finished on win2.classroom.puppet.com:
   STDOUT:
     hi
-Finished on 127.0.0.1:
-  STDOUT:
-    hi
-Successful on 3 targets: 0.0.0.0:20022,localhost
-Ran on 3 targets in 0.20 seconds
+Successful on 2 targets: win1.classroom.puppet.com,win2.classroom.puppet.com
+Ran on 2 targets in 1.11 seconds
 ```
 
-### 2. Download the Chocolatey module
+### 4. Download and install the Chocolatey module
 
 Bolt uses a [Puppetfile](https://puppet.com/docs/pe/latest/puppetfile.html) to install module content from the Forge. A `Puppetfile` is a formatted text file that specifies the modules and data you want in each environment.
 
-1. Create a file named `Puppetfile` in the project directory, with the modules needed for this example:
+1. In the project directory, create a file named `Puppetfile` with the modules needed for this example:
 
 ```     
-mod 'puppetlabs-chocolatey', '4.1.0'
-mod 'puppetlabs-stdlib', '4.13.1'
-mod 'puppetlabs-powershell', '2.3.0'
-mod 'puppetlabs-registry', '2.1.0'
+mod 'puppetlabs-chocolatey', '5.0.2'
+mod 'puppetlabs-stdlib', '6.3.0'
+mod 'puppetlabs-powershell', '3.0.1'
+mod 'puppetlabs-registry', '3.1.0'
+mod 'puppetlabs-pwshlib', '0.4.1'
  ```
 
 Note that you can install modules from a number of different sources. For more information, see the [Puppetfile README](https://github.com/puppetlabs/r10k/blob/master/doc/puppetfile.mkd#examples).
 
-1. From inside the project directory, install the required modules:
+2. In the project directory, run this command to install the required modules:
 
 ```
 bolt puppetfile install
@@ -225,37 +253,18 @@ bolt puppetfile install
 
 After it runs, you can see a `modules` directory inside the project directory, containing the modules you specified in the `Puppetfile`.
 
-### 3. Write a Bolt plan to apply Puppet code
+### 5. Write a Bolt plan to apply Puppet code
 
 Write a Bolt plan to orchestrate the deployment of a package resource using the Chocolatey provider. Plans allow you to run more than one task with a single command, compute values for the input to a task, process the results of tasks, or make decisions based on the result of running a task.
 
-1. Create a `site-modules` directory. This is where you will add local code and modules.
 
-1. Inside the `site-modules` directory, create a new module called `puppet_choco_tap`.
-
-   ```
-   pdk new module puppet_choco_tap
-   ```
-
-1. Inside the `puppet_choco_tap` module, create a plans directory with a Bolt plan at `/plans/installer.pp`.
-
-The folder tree should look like this:
+1. Inside the `plans` directory, create a plan called `installer.pp` and add the following code:
 
 ```
-bolt_choco_example
-└── site-modules
-    └── puppet_choco_tap
-        └── plans
-            └── installer.pp 
-```
-
-1. Create a plan called `puppet_choco_tap::installer` by copying the following code into the `installer.pp` file::
-
-```
-plan puppet_choco_tap::installer(
+plan choco_example::installer(
   TargetSpec $targets,
   String $package,
-  Variant[Enum['absent', 'present'], String ] $ensure = 'present',
+  Enum['absent', 'present'] $ensure = 'present',
 ){
   apply_prep($targets)
 
@@ -263,56 +272,89 @@ plan puppet_choco_tap::installer(
     include chocolatey
 
     package { $package :
-      ensure    => $ensure,
-      provider  => 'chocolatey',
+      ensure   => $ensure,
+      provider => 'chocolatey',
       }
     }
   }
-}
 ```
 Take note of the following features of the plan:
 
-- It has three parameters: the list of targets to install the package on, a `package` string for the package name, and the `ensure` state of the package which allows for version, absent or present.
+- It has three parameters:
+    -  `$targets` - A list of targets on which to run the plan 
+    -  `$package` - String for the package name
+    -  `$ensure`  - Manage state of the package - allows for only absent or present.
+
+
 - It has the `apply_prep` function call, which is used to install modules needed by `apply` on targets as well as to gather facts about the targets.
 - `include chocolatey` installs the Chocolatey package manager. The Chocolatey provider is also deployed as a library with the Puppet agent in `apply_prep`.
 - The [package resource](https://puppet.com/docs/puppet/latest/types/package.html) ensures a package's state using the Chocolatey provider.
 
-1. To verify that the `puppet_choco_tap::installer` plan is available, run the following command
-   inside the `bolt_choco_example` directory:
+3. To verify that the `choco_example::installer` plan is available, run the following command
+   inside the `bolt_examples` directory:
 
 ```
 bolt plan show
 ```
 
-The output should look like:
+Output:
 
 ```
+aggregate::count
+aggregate::nodes
+aggregate::targets
+canary
 facts
 facts::info
-puppet_choco_tap::installer
+choco_example::installer
 puppetdb_fact
+reboot
 ```
+
+1. Adding the name of a plan to the end of the previous command will show more details about a given plan. This includes available parameters and usage information:
+
+```
+bolt plan show choco_example::installer
+```
+
+Output:
+
+```
+choco_example::installer
+
+USAGE:
+bolt plan run choco_example::installer targets=<value> package=<value> [ensure=<value>]
+
+PARAMETERS:
+- targets: TargetSpec
+- package: String
+- ensure: Enum['absent', 'present']
+    Default: 'present'
+```
+
+
+### 6. Run bolt plan to install package
 
 1. Run the plan with the `bolt plan run` command: 
 
 ```
-bolt plan run puppet_choco_tap::installer package=frogsay --targets=windows
+bolt plan run choco_example::installer package=frogsay targets=windows
 ```
 
-The output looks like this:
+You should get the following output:
 
 ```
-Starting: plan puppet_choco_tap::installer
-Starting: install puppet and gather facts on chocowin0.classroom.puppet.com, chocowin1.classroom.puppet.com
+Starting: plan choco_example::installer
+Starting: install puppet and gather facts on win1.classroom.puppet.com, win2.classroom.puppet.com
 Finished: install puppet and gather facts with 0 failures in 22.11 sec
-Starting: apply catalog on chocowin0.classroom.puppet.com, chocowin1.classroom.puppet.com
+Starting: apply catalog on win1.classroom.puppet.com, win2.classroom.puppet.com
 Finished: apply catalog with 0 failures in 18.77 sec
-Starting: apply catalog on chocowin0.classroom.puppet.com, chocowin1.classroom.puppet.com
+Starting: apply catalog on win1.classroom.puppet.com, win2.classroom.puppet.com
 Finished: apply catalog with 0 failures in 33.74 sec
-Finished: plan puppet_choco_tap::installer in 74.63 sec
+Finished: plan choco_example::installer in 74.63 sec
 ```
 
-1. To check that the installation worked, run the following `frogsay` command: 
+2. To check that the installation worked, run the following `frogsay` command: 
 
 ```        
 bolt command run 'frogsay ribbit' --targets=windows 
@@ -321,9 +363,9 @@ bolt command run 'frogsay ribbit' --targets=windows
 The result will vary on each server, and will look something like this:
 
 ```
-Started on chocowin1.classroom.puppet.com...
-Started on chocowin0.classroom.puppet.com...
-Finished on chocowin0.classroom.puppet.com:
+Started on win1.classroom.puppet.com...
+Started on win2.classroom.puppet.com...
+Finished on win1.classroom.puppet.com:
   STDOUT:
     
             DO NOT PAINT OVER FROG.
@@ -332,7 +374,7 @@ Finished on chocowin0.classroom.puppet.com:
      (----)
     ( >__< )
     ^^ ~~ ^^
-Finished on chocowin1.classroom.puppet.com:
+Finished on win2.classroom.puppet.com:
   STDOUT:
     
             TO PREVENT THE RISK OF FIRE OR ELECTRIC SHOCK, DO NOT ENGAGE WITH FROG
@@ -342,7 +384,7 @@ Finished on chocowin1.classroom.puppet.com:
      (----)
     ( >__< )
     ^^ ~~ ^^
-Successful on 2 targets: chocowin0.classroom.puppet.com,chocowin1.classroom.puppet.com
+Successful on 2 targets: win1.classroom.puppet.com,win2.classroom.puppet.com
 Ran on 2 targets in 3.15 seconds
 ```
 

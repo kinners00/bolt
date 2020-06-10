@@ -17,7 +17,7 @@ To show you how you can use Bolt to reuse your existing PowerShell scripts, this
 > -   Ensure you have Windows credentials for the target.
 > -   Ensure you have [configured Windows Remote Management](https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management) on the target.
 
-The example script, called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1), performs common task of restarting a service on demand. The process involves these steps:
+The example script, called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1), performs common task of restarting a service on demand. The process involves these steps:
 
 1.  Run your PowerShell script on a Windows target.
 2.  Create an inventory file to store information about the target.
@@ -83,7 +83,7 @@ To convert the `restart_service.ps1` script to a task, giving you the ability to
             └── tasks
     ```
 2.  Move the `restart_service.ps1` script into the `tasks` directory.
-3.  In the `tasks` directory, use your text editor to create a task metadata file — named after the script, but with a `.json` extension, in this example, `restart_service.json`.
+3.  In the `tasks` directory, use your text editor to create a task metadata file — named after the script, but with a `.json` extension, in this example, `restart_service.json`.
 4.  Add the following content to the new task metadata file:
 
     ```json
