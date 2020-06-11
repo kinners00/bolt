@@ -60,7 +60,9 @@ You should now have a bolt project directory structure that looks like this:
 
 ```console
 bolt_examples
-└── site-modules
-    └── tasks
-        plans      
+└── bolt.yaml
+    inventory.yaml
+    site-modules
+              └── tasks
+                  plans      
 ```
