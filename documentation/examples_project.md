@@ -29,8 +29,7 @@ mkdir -p site-modules/tasks site-modules/plans
 groups:
 - name: windows
   targets:
-  - win1.classroom.puppet.com
-  - win2.classroom.puppet.com
+  - win.classroom.puppet.com
   config:
     transport: winrm
     winrm:
@@ -38,8 +37,7 @@ groups:
       password: 's3cr3t'
 - name: linux
   targets:
-  - lin1.classroom.puppet.com
-  - lin1.classroom.puppet.com
+  - lin.classroom.puppet.com
   config:
     transport: ssh
     ssh:
@@ -55,6 +53,22 @@ groups:
 bolt command run 'echo hi' --targets windows,linux
 ```
 
+**Note:** The `--targets windows` argument refers to the target group defined in the inventory file.
+
+You should get the following output:
+
+```
+Started on win.classroom.puppet.com...
+Started on lin.classroom.puppet.com...
+Finished on win.classroom.puppet.com:
+  STDOUT:
+    hi
+Finished on lin.classroom.puppet.com:
+  STDOUT:
+    hi
+Successful on 2 targets: win.classroom.puppet.com,lin.classroom.puppet.com
+Ran on 2 targets in 0.97 sec
+```
 
 You should now have a bolt project directory structure that looks like this:
 
