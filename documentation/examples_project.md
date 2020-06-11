@@ -8,11 +8,11 @@ To get started with a Bolt project:
 
 1. Create Bolt project called `bolt_examples`:
 
-   ```
-   bolt project init bolt_examples
-   ```
+```
+bolt project init bolt_examples
+```
 
-Make sure your current working directory is `bolt_examples`
+Make sure your current working directory is now `bolt_examples`
 
 2. Create directories to hold local tasks and plans in `bolt_examples` project directory
 
@@ -51,9 +51,9 @@ groups:
 
 4. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory with your target groups: 
 
-    ```
-    bolt command run 'echo hi' --targets windows,linux
-    ```
+```
+bolt command run 'echo hi' --targets windows,linux
+```
 
 
 You should now have a bolt project directory structure that looks like this:
