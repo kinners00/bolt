@@ -53,7 +53,7 @@ groups:
 bolt command run 'echo hi' --targets windows,linux
 ```
 
-**Note:** The `--targets windows` argument refers to the target group defined in the inventory file.
+**Note:** The `--targets windows,linux` argument refers to the target groups defined in the inventory file.
 
 You should get the following output:
 
