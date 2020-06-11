@@ -63,6 +63,6 @@ bolt_examples
 └── bolt.yaml
     inventory.yaml
     site-modules
-              └── tasks
-                  plans      
+    └── tasks
+        plans      
 ```
