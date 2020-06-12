@@ -20,7 +20,7 @@ Make sure your current working directory is now `bolt_examples`
 mkdir -p site-modules/tasks site-modules/plans
 ```
 
-3. Create `inventory.yaml` file with the content below replacing target and credential information with your own. 
+3. Create `inventory.yaml` file with the content below replacing the target and credential information to those appropriate for your target: 
 
 
 > **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for said group in your inventory file.

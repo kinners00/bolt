@@ -142,94 +142,11 @@ You can use Bolt with Chocolatey to deploy a package on a Windows node by writin
 
 In this example, you will:
 
-1. Build a project-specific configuration using a Bolt project directory.
-2. Download module content from the Puppet Forge.
-3. Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
-
-### 1. Create a Bolt project
-
-Bolt runs in the context of a [Bolt project directory](bolt_project_directories.md). This directory contains all of the configuration, code, and data loaded by Bolt. Adding a `bolt.yaml` file (even if it's empty) to any directory automatically makes it a Bolt project directory. We could create a directory and `bolt.yaml` file manually but fortunately we can achieve the same result by running one simple command with bolt, as shown below.
+1. Download module content from the Puppet Forge.
+2. Write a Bolt plan to apply Puppet code and orchestrate the deployment of a package resource using the Chocolatey provider.
 
 
-1. Create a Bolt project called `bolt_examples`
-
-```
-bolt project init ./bolt_examples
-```
-
-You need to create a `site-modules` directory to hold all of your local code and modules. 
-
-2. Create directory called `site-modules`
-
-```
-mkdir .\site-modules\
-```
-
-### 2. Create choco module
-
-Before you create your bolt plan, you'll need to create the correct folder structure in order to store it. Inside the `site-modules` directory, you'll need to create a local module directory named `choco_example` and add a `plans` subdirectory. 
-
-After the next few labs, your site-module folder tree should look like this:
-
-```
-bolt_examples
-└── site-modules
-    └── choco_example
-        └── plans
-            └── installer.pp 
-```
-
-1. From the `site_modules` directory, create a choco module directory and plans subdirectory:
-
-   ```
-   mkdir .\choco_example\plans\
-   ```
-
-### 2. Create a inventory file
-   
-You can use an inventory file to store information about your targets and arrange them into groups. Grouping your targets lets you aim your Bolt commands at the group instead of having to reference each target individually with it's relevant connection parameters. 
-
-Bolt inventory is typically stored in a `inventory.yaml` file in the root of the project directory. 
-
-1. In the `bolt_examples` project directory, create `inventory.yaml` file with the following code, replacing the target and credential information to those appropriate for your target: 
-
-```yaml
-groups:
-  - name: windows
-    targets:
-      - win1.classroom.puppet.com
-      - win2.classroom.puppet.com
-    config:
-      transport: winrm
-      winrm:
-        user: Administrator
-        password: s3cr3t
-```
-
-2. To make sure that your inventory is configured correctly and that you can connect to all the targets, run the following command from inside the project directory: 
-
-```
-bolt command run 'echo hi' --targets windows
-```
-
-**Note:** The `--targets windows` argument refers to the target group defined in the inventory file.
-
-You should get the following output:
-
-```
-Started on win1.classroom.puppet.com...
-Started on win2.classroom.puppet.com...
-Finished on win1.classroom.puppet.com:
-  STDOUT:
-    hi
-Finished on win2.classroom.puppet.com:
-  STDOUT:
-    hi
-Successful on 2 targets: win1.classroom.puppet.com,win2.classroom.puppet.com
-Ran on 2 targets in 1.11 seconds
-```
-
-### 4. Download and install the Chocolatey module
+### 1. Download and install the Chocolatey module
 
 Bolt uses a [Puppetfile](https://puppet.com/docs/pe/latest/puppetfile.html) to install module content from the Forge. A `Puppetfile` is a formatted text file that specifies the modules and data you want in each environment.
 
@@ -253,7 +170,7 @@ bolt puppetfile install
 
 After it runs, you can see a `modules` directory inside the project directory, containing the modules you specified in the `Puppetfile`.
 
-### 5. Write a Bolt plan to apply Puppet code
+### 2. Write a Bolt plan to apply Puppet code
 
 Write a Bolt plan to orchestrate the deployment of a package resource using the Chocolatey provider. Plans allow you to run more than one task with a single command, compute values for the input to a task, process the results of tasks, or make decisions based on the result of running a task.
 
@@ -333,7 +250,7 @@ PARAMETERS:
 ```
 
 
-### 6. Run bolt plan to install package
+### 3. Run bolt plan to install package
 
 1. Run the plan with the `bolt plan run` command: 
 
@@ -392,6 +309,3 @@ That’s it! In this one plan, you have both installed Chocolatey and deployed t
 
 After you have installed your package, with the help of Bolt, you can use Chocolatey to automate all of the package management tasks for upgrades or uninstalls. You can use Puppet Enterprise to guarantee state across all of your nodes and handle configuration drift — and make sure no one accidentally uninstalls the package that you just installed.
 
-
-
-> **Note:** If you're only working with one of these groups (linux/windows) you can simply delete the content for that group in your inventory file.
